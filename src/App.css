@@ -1,0 +1,84 @@
+/* App.css */
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(120deg, #7e7efc, #5a5acb, #3883e3);
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .login-container {
+    background-color: white;
+    padding: 40px;
+    border-radius: 15px;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+    width: 320px;
+    text-align: center;
+  }
+  
+  .login-container h2 {
+    margin-bottom: 24px;
+    font-size: 28px;
+  }
+  
+  input {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 16px;
+    border-radius: 20px;
+    border: 1px solid #ccc;
+    background-color: #e0e0e0;
+  }
+  
+  button {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 20px;
+    background-color: #6c63ff;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    transition: background-color 0.3s ease;
+  }
+  
+  button:hover {
+    background-color: #594fd0;
+  }
+  
+  .separator {
+    margin: 20px 0;
+    display: flex;
+    align-items: center;
+  }
+  
+  .separator hr {
+    flex: 1;
+    border: none;
+    border-top: 1px solid #ccc;
+  }
+  
+  .separator span {
+    margin: 0 10px;
+    color: #666;
+  }
+  
+  .google-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: white;
+    cursor: pointer;
+    font-weight: bold;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  }
+  
