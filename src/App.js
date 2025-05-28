@@ -1,81 +1,47 @@
-import React from "react";
-import { signInWithPopup, GoogleAuthProvider } from "firebase/auth";
-import { signInWithEmailAndPassword } from "firebase/auth";
-import "./App.css";
-import googleLogo from "./google-logo.png"; 
-import usericon from "./images.png";
+import React, { useState } from "react";
+import { Routes, Route, Navigate } from "react-router-dom";
 import { auth, provider } from "./firebase";
-import { useState } from "react";
+import "./App.css";
+
+import Login from "./Login";
+import PanelAdmin from "./PanelAdmin";
+import Alerts from "./Alerts";
+import Audit from "./Audit";
+import Logs from "./Logs";
+import Iterations from "./Interations";
+import Roles from "./Roles";
+import Users from "./Users";
+import Organizations from "./Organizations";
+import Dashboard from "./Dashboard";
 
 function App() {
   const [user, setUser] = useState(null);
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-
-  const loginWithGoogle = () => {
-    signInWithPopup(auth, provider)
-      .then((result) => {
-        setUser(result.user);
-        console.log("Usuario logueado:", result.user);
-      })
-      .catch((error) => {
-        console.error("Error al iniciar sesión:", error);
-      });
-  };
-
-  const loginWithEmail = () => {
-    signInWithEmailAndPassword(auth, email, password)
-      .then((result) => {
-        setUser(result.user);
-      })
-      .catch((error) => {
-        alert("Error: " + error.message);
-      });
-  };
 
   return (
-    <div className="login-container">
-      {user ? (
-        <>
-          <h2>Bienvenido, {user.displayName}</h2>
-          <img
-            src={usericon}
-            alt="Foto"
-            style={{ width: 50, borderRadius: "50%" }}
-          />
-          <p>{user.email}</p>
-        </>
-      ) : (
-        <>
-          <h2>Iniciar sesión</h2>
-          <input
-            type="email"
-            placeholder="Correo electrónico"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
-          <input
-            type="password"
-            placeholder="Contraseña"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-          <button onClick={loginWithEmail}>Iniciar Sesión</button>
+    <Routes>
+      <Route
+        path="/"
+        element={
+          user ? <Navigate to="/dashboard" /> : <Login setUser={setUser} />
+        }
+      />
 
-          <div className="separator">
-            <hr />
-            <span>Or</span>
-            <hr />
-          </div>
-
-          <div className="google-button" onClick={loginWithGoogle}>
-            <img src={googleLogo} alt="Google" style={{ width: "20px" }} />
-            Ingresar con Google
-          </div>
-        </>
+      {user && (
+        <Route path="/dashboard" element={<PanelAdmin />}>
+          <Route index element={<Dashboard />} />
+          <Route path="organizaciones" element={<Organizations />} />
+          <Route path="usuarios" element={<Users />} />
+          <Route path="roles" element={<Roles />} />
+          <Route path="iteraciones" element={<Iterations />} />
+          <Route path="logs" element={<Logs />} />
+          <Route path="auditoria" element={<Audit />} />
+          <Route path="alertas" element={<Alerts />} />
+        </Route>
       )}
-    </div>
+    </Routes>
   );
 }
 
 export default App;
+
+

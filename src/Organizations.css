@@ -1,0 +1,71 @@
+.org-container {
+  padding: 30px;
+  background: #fff;
+  border-radius: 10px;
+  width: 100%;
+}
+
+.org-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 20px;
+  align-items: center;
+}
+
+.org-search {
+  flex: 1;
+  padding: 8px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+.org-filtros button,
+.org-agregar {
+  padding: 8px 14px;
+  border: none;
+  border-radius: 6px;
+  background-color: #6c63ff;
+  color: white;
+  cursor: pointer;
+}
+
+.org-filtros button {
+  background-color: #eee;
+  color: #333;
+}
+
+.org-agregar {
+  margin-left: auto;
+}
+
+.org-table-responsive {
+  overflow-x: auto;
+}
+
+.org-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.org-table th,
+.org-table td {
+  padding: 12px;
+  border-bottom: 1px solid #ddd;
+  text-align: left;
+  white-space: nowrap;
+}
+
+.icon-btn {
+  background: none;
+  border: none;
+  font-size: 18px;
+  margin-right: 6px;
+  cursor: pointer;
+}
+
+.org-pagination {
+  margin-top: 20px;
+  display: flex;
+  gap: 10px;
+}
