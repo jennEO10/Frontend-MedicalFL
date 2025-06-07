@@ -1,18 +1,50 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 const Users = () => {
-  const usuarios = [
-    { nombre: "Juan Pérez", email: "jperez@hospital-universitario.org", organizacion: "Hospital Universitario", rol: "Administrador", estado: "Activo", acceso: "12/05/2025" },
-    { nombre: "María López", email: "mlopez@clinica-sanrafael.com", organizacion: "Clínica San Rafael", rol: "Investigador", estado: "Activo", acceso: "11/05/2025" },
-    { nombre: "Carlos Rodríguez", email: "crodriguez@hospital-norte.org", organizacion: "Hospital Norte", rol: "Médico", estado: "Activo", acceso: "10/05/2025" },
-    { nombre: "Ana Martínez", email: "amartinez@centro-regional.org", organizacion: "Centro Médico Regional", rol: "Técnico", estado: "Inactivo", acceso: "03/05/2025" },
-    { nombre: "Roberto Sánchez", email: "rsanchez@clinica-especializada.com", organizacion: "Clínica Especializada", rol: "Analista", estado: "Bloqueado", acceso: "05/05/2025" }
-  ];
+  const [usuarios, setUsuarios] = useState([]);
+  const [error, setError] = useState(null);
+  const [showForm, setShowForm] = useState(false); // <-- Nuevo estado
+  const [nuevoUsuario, setNuevoUsuario] = useState({
+    username: "",
+    mail: "",
+    organizationId: "",
+    rolesId: [""]
+  });
 
   const colorEstado = {
-    "Activo": { backgroundColor: "#d4edda", color: "#155724" },
-    "Inactivo": { backgroundColor: "#fff3cd", color: "#856404" },
-    "Bloqueado": { backgroundColor: "#f8d7da", color: "#721c24" }
+    true: { backgroundColor: "#d4edda", color: "#155724" },
+    false: { backgroundColor: "#f8d7da", color: "#721c24" }
+  };
+
+  useEffect(() => {
+    fetch('https://graphic-brook-404722.uc.r.appspot.com/api/listar-usuarios')
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Error en la respuesta del servidor');
+        }
+        return response.json();
+      })
+      .then(data => {
+        setUsuarios(data);
+      })
+      .catch(error => {
+        console.error('Error al obtener los usuarios:', error);
+        setError("No se pudieron cargar los usuarios.");
+      });
+  }, []);
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setNuevoUsuario(prev => ({
+      ...prev,
+      [name]: name === "rolesId" ? [value] : value
+    }));
+  };
+
+  const handleAgregarUsuario = () => {
+    console.log("Nuevo usuario a agregar:", nuevoUsuario);
+    setShowForm(false); // Cierra el formulario
+    // Aquí iría la lógica para enviar al backend si lo necesitas
   };
 
   return (
@@ -27,9 +59,28 @@ const Users = () => {
           <button style={boton}>Inactivos</button>
           <button style={boton}>Bloqueados</button>
           <button style={boton}>Todos</button>
-          <button style={btnAgregar}>+ Agregar</button>
+          <button style={btnAgregar} onClick={() => setShowForm(true)}>+ Agregar</button>
         </div>
       </div>
+
+      {error && <p style={{ color: 'red' }}>{error}</p>}
+
+      {/* FORMULARIO EMERGENTE */}
+      {showForm && (
+        <div style={formOverlay}>
+          <div style={formContainer}>
+            <h3>Agregar nuevo usuario</h3>
+            <input type="text" name="username" placeholder="Nombre" style={formInput} onChange={handleInputChange} />
+            <input type="email" name="mail" placeholder="Correo" style={formInput} onChange={handleInputChange} />
+            <input type="text" name="organizationId" placeholder="Organización" style={formInput} onChange={handleInputChange} />
+            <input type="text" name="rolesId" placeholder="Rol ID" style={formInput} onChange={handleInputChange} />
+            <div style={{ display: "flex", justifyContent: "flex-end", gap: "10px" }}>
+              <button style={boton} onClick={() => setShowForm(false)}>Cancelar</button>
+              <button style={botonActivo} onClick={handleAgregarUsuario}>Guardar</button>
+            </div>
+          </div>
+        </div>
+      )}
 
       <div style={{ overflowX: 'auto' }}>
         <table style={{ width: '100%', borderCollapse: 'collapse' }}>
@@ -47,12 +98,16 @@ const Users = () => {
           <tbody>
             {usuarios.map((user, i) => (
               <tr key={i}>
-                <td style={td}>{user.nombre}</td>
-                <td style={td}>{user.email}</td>
-                <td style={td}>{user.organizacion}</td>
-                <td style={td}>{user.rol}</td>
-                <td style={td}><span style={{ ...colorEstado[user.estado], padding: '4px 8px', borderRadius: '10px' }}>{user.estado}</span></td>
-                <td style={td}>{user.acceso}</td>
+                <td style={td}>{user.username}</td>
+                <td style={td}>{user.mail}</td>
+                <td style={td}>Org #{user.organizationId}</td>
+                <td style={td}>Rol #{user.rolesId[0]}</td>
+                <td style={td}>
+                  <span style={{ ...colorEstado[user.enabled], padding: '4px 8px', borderRadius: '10px' }}>
+                    {user.enabled ? "Activo" : "Inactivo"}
+                  </span>
+                </td>
+                <td style={td}>--/--/----</td>
                 <td style={td}>
                   <button style={iconBtn}>✏️</button>
                   <button style={iconBtn}>🔍</button>
@@ -67,6 +122,7 @@ const Users = () => {
   );
 };
 
+// Estilos
 const th = {
   padding: "12px",
   borderBottom: "2px solid #ccc",
@@ -116,5 +172,33 @@ const iconBtn = {
   cursor: "pointer"
 };
 
-export default Users;
+const formOverlay = {
+  position: "fixed",
+  top: 0,
+  left: 0,
+  width: "100vw",
+  height: "100vh",
+  backgroundColor: "rgba(0, 0, 0, 0.4)",
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+  zIndex: 1000
+};
 
+const formContainer = {
+  backgroundColor: "#fff",
+  padding: "20px",
+  borderRadius: "10px",
+  width: "300px",
+  display: "flex",
+  flexDirection: "column",
+  gap: "10px"
+};
+
+const formInput = {
+  padding: "8px",
+  borderRadius: "6px",
+  border: "1px solid #ccc"
+};
+
+export default Users;

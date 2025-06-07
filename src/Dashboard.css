@@ -1,0 +1,67 @@
+.dashboard-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 16px;
+}
+
+.dashboard-title {
+  font-size: 2rem;
+  margin-bottom: 8px;
+  font-weight: bold;
+}
+
+.dashboard-subtitle {
+  margin-bottom: 32px;
+  color: #444;
+}
+
+.cards-container {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  margin-bottom: 30px;
+}
+
+.card {
+  background: white;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  padding: 20px;
+  min-width: 200px;
+  flex: 1 1 200px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.card-value {
+  font-size: 24px;
+  margin: 10px 0;
+}
+
+.system-activity {
+  background: #f8f8f8;
+  height: 150px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  margin-bottom: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #888;
+}
+
+.activity-list {
+  list-style-type: disc;
+  padding-left: 20px;
+  color: #444;
+}
+
+/* Media query para móviles */
+@media (max-width: 768px) {
+  .cards-container {
+    flex-direction: column;
+  }
+  .card {
+    min-width: auto;
+    width: 100%;
+  }
+}
