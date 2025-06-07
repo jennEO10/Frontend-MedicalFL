@@ -1,14 +1,27 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./Organizations.css";
+import organizationService from "./services/organizationService";
 
 const Organizations = () => {
-  const [data, setData] = useState([
-    { nombre: "Hospital Universitario", tipo: "Institución Pública", usuarios: 12, estado: "Activa", actividad: "12/05/2025", iteraciones: "28/28" },
-    { nombre: "Clínica San Rafael", tipo: "Institución Privada", usuarios: 10, estado: "Activa", actividad: "11/05/2025", iteraciones: "27/28" },
-    { nombre: "Hospital Norte", tipo: "Institución Pública", usuarios: 9, estado: "Activa", actividad: "10/05/2025", iteraciones: "25/28" },
-    { nombre: "Centro Médico Regional", tipo: "Institución Pública", usuarios: 6, estado: "Inactiva", actividad: "03/05/2025", iteraciones: "20/28" },
-    { nombre: "Clínica Especializada", tipo: "Institución Privada", usuarios: 11, estado: "Activa", actividad: "09/05/2025", iteraciones: "28/28" },
-  ]);
+  // const [data, setData] = useState([
+  //   { nombre: "Hospital Universitario", tipo: "Institución Pública", usuarios: 12, estado: "Activa", actividad: "12/05/2025", iteraciones: "28/28" },
+  //   { nombre: "Clínica San Rafael", tipo: "Institución Privada", usuarios: 10, estado: "Activa", actividad: "11/05/2025", iteraciones: "27/28" },
+  //   { nombre: "Hospital Norte", tipo: "Institución Pública", usuarios: 9, estado: "Activa", actividad: "10/05/2025", iteraciones: "25/28" },
+  //   { nombre: "Centro Médico Regional", tipo: "Institución Pública", usuarios: 6, estado: "Inactiva", actividad: "03/05/2025", iteraciones: "20/28" },
+  //   { nombre: "Clínica Especializada", tipo: "Institución Privada", usuarios: 11, estado: "Activa", actividad: "09/05/2025", iteraciones: "28/28" },
+  // ]);
+
+  // Inicializar el estado con datos vacíos
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const organizations = await organizationService.fetchAll();
+      setData(organizations);
+    };
+
+    fetchData();
+  }, []);
 
   const [showForm, setShowForm] = useState(false);
   const [nuevaOrg, setNuevaOrg] = useState({
