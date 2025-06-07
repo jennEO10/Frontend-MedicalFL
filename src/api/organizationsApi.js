@@ -8,8 +8,8 @@ export const getOrganizations = async () => {
 };
 
 export const createOrganization = async (data) => {
-  const response = await axios.post(API_URL, data);
-  return response.data;
+  const response = await axios.post(`${API_URL}/api/crear-organizacion`, data);
+  return response;
 };
 
 export const updateOrganization = async (id, data) => {

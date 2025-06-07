@@ -4,33 +4,53 @@ import organizationService from "./services/organizationService";
 
 const Organizations = () => {
   const [data, setData] = useState([]);
-
-  useEffect(() => {
-    const fetchData = async () => {
+  
+  const fetchData = async () => {
+    try {
       const organizations = await organizationService.fetchAll();
       setData(organizations);
-    };
+    } catch (error) {
+      console.error("Error al cargar organizaciones:", error);
+    }
+  };
 
+  useEffect(() => {
     fetchData();
   }, []);
 
+
   const [showForm, setShowForm] = useState(false);
   const [nuevaOrg, setNuevaOrg] = useState({
-    nombre: "",
+    name: "",
     descripcion: "",
     contacto: ""
   });
 
-  const handleGuardar = () => {
-    setData([...data, nuevaOrg]);
-    setShowForm(false);
-    setNuevaOrg({ nombre: "", descripcion: "", contacto: "" });
+  const handleGuardar = async () => {
+    console.log("Guardando nueva organización:", nuevaOrg);
+    try {
+      const response = await organizationService.saveOrganization(nuevaOrg);
+      fetchData();
+      setShowForm(false);
+      setNuevaOrg({ name: "", descripcion: "", contacto: "" });
+    } catch (error) {
+      console.error("Error en guardar:", error);
+      alert("No se pudo guardar. Verifica la conexión o los datos.");
+    }
+    // setData([...data, nuevaOrg]);
+    // setShowForm(false);
+    // setNuevaOrg({ nombre: "", descripcion: "", contacto: "" });
   };
 
   return (
     <div className="org-container">
       <h2>Gestión de Organizaciones</h2>
       <p>Administra las organizaciones participantes en el modelo federado</p>
+
+      {/* <div className="org-controls">
+        <input type="text" placeholder="Buscar organización..." className="org-search" />
+        <button className="org-agregar" onClick={() => setShowForm(true)}>+ Agregar</button>
+      </div> */}
 
       <div className="org-table-responsive">
         <table className="org-table">
@@ -73,8 +93,8 @@ const Organizations = () => {
             <input
               type="text"
               placeholder="Nombre"
-              value={nuevaOrg.nombre}
-              onChange={(e) => setNuevaOrg({ ...nuevaOrg, nombre: e.target.value })}
+              value={nuevaOrg.name}
+              onChange={(e) => setNuevaOrg({ ...nuevaOrg, name: e.target.value })}
             />
             <input
               type="text"

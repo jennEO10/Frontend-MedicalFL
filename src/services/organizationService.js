@@ -11,7 +11,16 @@ const organizationService = {
       throw error;
     }
   },
-  createOrganization,
+  saveOrganization: async (data) => {
+    try {
+      const response = await createOrganization(data);
+      console.log("Organization created:", response);
+      return response;
+    } catch (error) {
+      console.error("Error creating organization:", error);
+      throw error;
+    }
+  },
   updateOrganization,
   deleteOrganization,
 };
