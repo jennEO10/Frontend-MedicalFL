@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import userService from "./services/usersService";
 import rulesService from "./services/rulesService";
 import organizationService from "./services/organizationService";
 import { EyeIcon, EyeSlashIcon } from "@heroicons/react/24/solid";
 import ModalConfirmacion from './components/ModalConfirmacion';
+import FiltrosUsuarios from './components/FiltrosUsuarios';
 
 
 const Users = () => {
@@ -25,6 +26,25 @@ const Users = () => {
     organizationId: 0,
     rolesId: []
   });
+
+  const [filtros, setFiltros] = useState({
+    nombre: '',
+    email: '',
+    estado: 0,
+    rol: 0
+  });
+
+  const rolesConTodos = useMemo(() => [
+    { id: 0, name: 'Todos' },
+    ...roles
+  ], [roles]);
+
+  const estados = [
+    { id: 0, name: 'Todos' },
+    { id: 1, name: 'Activo' },
+    { id: 2, name: 'Inactivo' },
+    { id: 3, name: 'Bloqueados' },
+  ];
 
   const colorEstado = {
     true: "bg-green-100 text-green-800",
@@ -115,7 +135,7 @@ const Users = () => {
         <h2 className="text-xl font-bold">Gestión de Usuarios</h2>
         <p className="text-gray-600 mb-4">Administra los usuarios que acceden a la plataforma federada</p>
 
-        <div className="flex flex-wrap gap-2 justify-between mb-4">
+        {/* <div className="flex flex-wrap gap-2 justify-between mb-4">
           <input type="text" placeholder="Buscar usuario..." className="border px-3 py-2 rounded-md w-full sm:w-auto flex-1" />
           <div className="flex gap-2">
             <button className="bg-indigo-500 text-white px-4 py-2 rounded-md">Activos</button>
@@ -124,7 +144,18 @@ const Users = () => {
             <button className="bg-gray-200 px-4 py-2 rounded-md">Todos</button>
             <button onClick={handleInputChange} className="bg-purple-500 text-white px-4 py-2 rounded-md">+ Agregar</button>
           </div>
-        </div>
+        </div> */}
+
+        <FiltrosUsuarios
+          filtros={filtros}
+          setFiltros={setFiltros}
+          estados={estados}
+          roles={rolesConTodos}
+          onBuscar={() => {
+            // aquí puedes ejecutar tu lógica para buscar
+            data(); // o la función que actualice la lista
+          }}
+        />
 
         {error && <p className="text-red-500 mb-2">{error}</p>}
 
