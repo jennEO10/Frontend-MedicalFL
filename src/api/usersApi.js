@@ -2,8 +2,8 @@ import axios from 'axios';
 
 const API_URL = 'https://graphic-brook-404722.uc.r.appspot.com';
 
-export const getOrganizations = async () => {
-  const response = await axios.get(`${API_URL}/api/listar-organizaciones`);
+export const getUsers = async () => {
+  const response = await axios.get(`${API_URL}/api/listar-usuarios`);
   return response.data;
 };
 
