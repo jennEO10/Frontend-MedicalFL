@@ -12,17 +12,17 @@ export const fetchOrganization = async (name) => {
   return [response.data];
 };
 
-export const createOrganization = async (data) => {
-  const response = await axios.post(`${API_URL}/api/crear-organizacion`, data);
+export const createUser = async (data) => {
+  const response = await axios.post(`${API_URL}/api/crear-usuario`, data);
   return response;
 };
 
-export const updateOrganization = async (id, data) => {
-  const response = await axios.patch(`${API_URL}/api/actualizar-organizacion/${id}`, data);
+export const updateUser = async (id, data) => {
+  const response = await axios.patch(`${API_URL}/api/actualizar-usuario/${id}`, data);
   return response;
 };
 
-export const deleteOrganization = async (id) => {
-  const response = await axios.delete(`${API_URL}/api/eliminar-organizacion/${id}`);
+export const deleteUser = async (id) => {
+  const response = await axios.delete(`${API_URL}/api/eliminar-usuario/${id}`);
   return response;
 };
