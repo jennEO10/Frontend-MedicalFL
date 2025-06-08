@@ -138,31 +138,31 @@ const Users = () => {
             </div>
 
             <div className="space-y-1">
-  <label htmlFor="password" className="block text-sm font-medium text-gray-700">Contraseña</label>
-  <div className="relative">
-    <input
-      id="password"
-      name="password"
-      type={showPassword ? "text" : "password"}
-      placeholder="Contraseña"
-      value={nuevoUsuario.password}
-      onChange={handleInputChange}
-      inputMode="none"
-      autoComplete="off"
-      className="w-full border border-gray-300 rounded-md px-3 py-2 pr-10 focus:outline-none focus:ring-2 focus:ring-indigo-500"
-    />
-    <span
-      className="absolute right-3 top-6 transform -translate-y-[55%] cursor-pointer"
-      onClick={() => setShowPassword(!showPassword)}
-    >
-      {showPassword ? (
-        <EyeSlashIcon className="w-5 h-5 text-gray-500 hover:text-gray-700" />
-      ) : (
-        <EyeIcon className="w-5 h-5 text-gray-500 hover:text-gray-700" />
-      )}
-    </span>
-  </div>
-</div>
+              <label htmlFor="password" className="block text-sm font-medium text-gray-700">Contraseña</label>
+              <div className="relative">
+                <input
+                  id="password"
+                  name="password"
+                  type={showPassword ? "text" : "password"}
+                  placeholder="Contraseña"
+                  value={nuevoUsuario.password}
+                  onChange={handleInputChange}
+                  className="w-full border border-gray-300 rounded-md px-3 py-2 pr-10 focus:outline-none focus:ring-2 focus:ring-indigo-500 
+                            [appearance:textfield] [&::-ms-reveal]:hidden [&::-ms-clear]:hidden"
+                />
+
+                <span
+                  className="absolute right-3 top-6 transform -translate-y-[55%] cursor-pointer"
+                  onClick={() => setShowPassword(!showPassword)}
+                >
+                  {showPassword ? (
+                    <EyeSlashIcon className="w-5 h-5 text-gray-500 hover:text-gray-700" />
+                  ) : (
+                    <EyeIcon className="w-5 h-5 text-gray-500 hover:text-gray-700" />
+                  )}
+                </span>
+              </div>
+            </div>
 
 
             <div className="space-y-1">
